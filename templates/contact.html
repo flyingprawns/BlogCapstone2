@@ -7,8 +7,14 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="page-heading">
-                    <h1>Contact Me</h1>
-                    <span class="subheading">Have questions? I have answers.</span>
+                    <!-- Load a different header if message was received -->
+                    <!-- Check contact_page() in main.py for more info -->
+                    {% if contact_received %}
+                        <h1>Your message was sent successfully!</h1>
+                    {% else %}
+                        <h1>Contact Me</h1>
+                        <span class="subheading">Have questions? I have answers.</span>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -20,9 +26,15 @@
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
+
+                <!-- Don't load the contact form again if message was received -->
+                <!-- Check contact_page() in main.py for more info -->
+                {% if contact_received %}
+                    <!-- Don't load the form -->
+                {% else %}
                 <p>Want to get in touch? Fill out the form below to send me a message and I will get back to you as soon as possible!</p>
                 <div class="my-5">
-                    <form action="{{ url_for('receive_contact_data') }}" method="post">
+                    <form action="{{ url_for('contact_page') }}" method="post">
                         <div class="form-floating">
                             <input class="form-control" name="name" type="text" placeholder=" "/>
                             <label>Name:</label>
@@ -44,6 +56,8 @@
                         <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">Send</button>
                     </form>
                 </div>
+                {% endif %}
+
             </div>
         </div>
     </div>

@@ -20,26 +20,18 @@ def about_page():
     return render_template("about.html")
 
 
-@app.route("/contact")
+@app.route("/contact", methods=["GET", "POST"])
 def contact_page():
-    return render_template("contact.html")
-
-
-@app.route("/contact_entry", methods=["POST"])
-def receive_contact_data():
-    if request.method == 'POST':
+    if request.method == 'GET':
+        return render_template("contact.html", contact_received=False)
+    elif request.method == 'POST':
         contact_name = request.form['name']
         contact_email = request.form['email']
         contact_phone = request.form['phone']
         contact_message = request.form['message']
-        return f'<h1>success!</h1><br>' \
-               '<h2>' \
-               'Name: {contact_name} <br>' \
-               'Email: {contact_email} <br>' \
-               'Phone: {contact_phone} <br>' \
-               'Message: {contact_message}' \
-               '</h2>'
-    return '<h1>fail</h1>'
+        return render_template("contact.html", contact_received=True)
+    else:
+        return '<h1>Invalid request to contact_page (must be GET or POST)</h1>'
 
 
 @app.route("/posts/<post_id>")
