@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import requests
 
 app = Flask(__name__)
@@ -23,6 +23,23 @@ def about_page():
 @app.route("/contact")
 def contact_page():
     return render_template("contact.html")
+
+
+@app.route("/contact_entry", methods=["POST"])
+def receive_contact_data():
+    if request.method == 'POST':
+        contact_name = request.form['name']
+        contact_email = request.form['email']
+        contact_phone = request.form['phone']
+        contact_message = request.form['message']
+        return f'<h1>success!</h1><br>' \
+               '<h2>' \
+               'Name: {contact_name} <br>' \
+               'Email: {contact_email} <br>' \
+               'Phone: {contact_phone} <br>' \
+               'Message: {contact_message}' \
+               '</h2>'
+    return '<h1>fail</h1>'
 
 
 @app.route("/posts/<post_id>")
